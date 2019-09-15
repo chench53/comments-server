@@ -10,5 +10,5 @@ class CommentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().select_related('creator')
     serializer_class = CommentSerializer
