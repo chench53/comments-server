@@ -20,5 +20,6 @@ class CommentSerializer(serializers.ModelSerializer):
             'profile_picture_url',
             'created',
             'modified',
-            'content'
+            'content',
+            'parent'
         )
