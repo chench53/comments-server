@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Creator, Comment
+from .models import Creator, Comment, Upvote
 
 class CreatorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,3 +23,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'content',
             'parent'
         )
+
+class UpvoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Upvote
+        fields = ('creator', 'comment')
