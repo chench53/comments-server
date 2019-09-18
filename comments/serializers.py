@@ -21,7 +21,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'created',
             'modified',
             'content',
-            'parent'
+            'parent',
+            'upvote_count'
         )
 
 class UpvoteSerializer(serializers.ModelSerializer):
