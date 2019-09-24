@@ -57,6 +57,7 @@
 					enableAttachments: true,
 					enableHashtags: true,
 					enablePinging: true,
+					enableDeletingCommentWithReplies: true,
 					searchUsers: function(term, success, error) {
 					    setTimeout(function() {
 					        success(usersArray.filter(function(user) {
@@ -78,14 +79,9 @@
                         })
 					},
 					putComment: function(data, success, error) {
-						// setTimeout(function() {
-						// 	success(saveComment(data));
-                        // }, 500);
-                        // $.put(url, data, () => {
-                        //     success(saveComment(data));
-                        // })
+						data.modified = (new Date(data.modified)).toISOString(); // format
                         $.ajax({
-                            url: url+data.id,
+                            url: `${url}${data.id}/`,
                             type: 'PUT',
                             data: data,
                             success: function(response) {
@@ -94,9 +90,13 @@
                         });
 					},
 					deleteComment: function(data, success, error) {
-						setTimeout(function() {
-							success();
-						}, 500);
+                        $.ajax({
+                            url: `${url}${data.id}/`,
+                            type: 'DELETE',
+                            success: function(response) {
+                                success();
+                            }
+                        });
 					},
 					upvoteComment: function(data, success, error) {
 						setTimeout(function() {
