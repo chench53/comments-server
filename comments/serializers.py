@@ -12,6 +12,7 @@ class CommentSerializer(serializers.ModelSerializer):
     profile_picture_url = serializers.URLField(source='creator', read_only=True)
 
     created_by_current_user = serializers.SerializerMethodField()
+    user_has_upvoted = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -25,7 +26,8 @@ class CommentSerializer(serializers.ModelSerializer):
             'content',
             'parent',
             'upvote_count',
-            'created_by_current_user'
+            'created_by_current_user',
+            'user_has_upvoted',
         )
     
     def get_created_by_current_user(self, obj):
@@ -35,6 +37,14 @@ class CommentSerializer(serializers.ModelSerializer):
         except (AttributeError, KeyError):
             created_by_current_user = False
         return created_by_current_user
+
+    def get_user_has_upvoted(self, obj):
+        try:
+            current_user = self.context['request'].query_params['current_user']
+            user_has_upvoted = bool(Upvote.objects.get(creator=current_user, comment=obj.id))
+        except (KeyError, Upvote.DoesNotExist):
+            user_has_upvoted = False
+        return user_has_upvoted
 
 class UpvoteSerializer(serializers.ModelSerializer):
     class Meta:

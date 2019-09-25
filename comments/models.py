@@ -28,11 +28,7 @@ class Comment(models.Model):
 
     parent = models.ForeignKey('self', models.CASCADE, null=True, blank=True)
 
-    # created_by_admin = models.BooleanField()
-    # created_by_current_user = models.BooleanField()
     upvote_count = models.IntegerField(default=0)
-    # user_has_upvoted = models.BooleanField()
-    # is_new = models.BooleanField()
 
     def __str__(self):
         return '{creator}: {content}...'.format(creator=self.creator, content=self.content[:40])
@@ -43,3 +39,6 @@ class Upvote(models.Model):
 
     class Meta:
         unique_together = (("creator", "comment"),)
+
+    def __str__(self):
+        return '{creator} upvote {comment}'.format(creator=creator, comment=comment)

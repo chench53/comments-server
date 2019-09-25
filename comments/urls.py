@@ -9,5 +9,5 @@ router.register(r'comments', CommentViewSet)
 
 urlpatterns = [
     path('api/customers/1/', include(router.urls), name='comment'),
-    path('api/customers/1/upvotes', UpvoteList.as_view(), name='upvotes'),
+    path(r'api/customers/1/upvotes', UpvoteList.as_view(), name='upvotes'),
 ]

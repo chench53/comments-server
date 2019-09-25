@@ -25,10 +25,9 @@ class UpvoteList(APIView):
 
     def post(self, request):
         form = UpdvateForm(request.POST)
-        # form.update_or_create()
-        print(request.POST)
-        print(form)
-        Upvote.objects.get_or_create(creator=request.POST['creator'], comment=request.POST['comment'])
+        if form.is_valid():
+            Upvote.objects.get_or_create(**form.cleaned_data)
+
         return Response({})
 
     def get(self, request):
