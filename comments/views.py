@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .forms import UpdvateForm
+from .forms import UpvoteForm, DownvoteForm
 from .models import Comment, Upvote
 from .serializers import CommentSerializer, UpvoteSerializer
 
@@ -24,7 +24,7 @@ class UpvoteList(APIView):
     serializer_class = UpvoteSerializer
 
     def post(self, request):
-        form = UpdvateForm(request.POST)
+        form = UpvoteForm(request.POST)
         if form.is_valid():
             Upvote.objects.get_or_create(**form.cleaned_data)
 
@@ -34,3 +34,12 @@ class UpvoteList(APIView):
         queryset = Upvote.objects.all()
         serializer = self.serializer_class(queryset, many=True)
         return Response(serializer.data)
+
+class DownvoteList(APIView):
+    queryset = Upvote.objects.all()
+
+    def post(self, request):
+        form = DownvoteForm(request.POST)
+        if form.is_valid():
+            Upvote.objects.filter(**form.cleaned_data).delete()
+        return Response({})

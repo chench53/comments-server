@@ -28,10 +28,11 @@
 		<script type="text/javascript">
 			$(function() {
                 // test customer
-                const customer = 1; 
+                const customer = 1;
                 // test server url
 				const url = `http://127.0.0.1:8000/api/customers/${customer}/comments/`;
 				const upvoteuUrl = `http://127.0.0.1:8000/api/customers/${customer}/upvotes`;
+				const downvoteuUrl = `http://127.0.0.1:8000/api/customers/${customer}/downvotes`;
                 // test current creator
                 getCreatorInfo = () => {
                     return {
@@ -105,8 +106,8 @@
 							creator: creatorInfo.creator,
 							comment: data.id
 						}
-						console.log(data);
-                        $.post(upvoteuUrl, data, () => {
+						let url = comment.user_has_upvoted?upvoteuUrl:downvoteuUrl;
+                        $.post(url, data, () => {
                             success(comment);
                         })
 					},
