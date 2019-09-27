@@ -13,6 +13,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     created_by_current_user = serializers.SerializerMethodField()
     user_has_upvoted = serializers.SerializerMethodField()
+    upvote_count = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -45,6 +46,9 @@ class CommentSerializer(serializers.ModelSerializer):
         except (KeyError, Upvote.DoesNotExist):
             user_has_upvoted = False
         return user_has_upvoted
+
+    def get_upvote_count(self, obj):
+        return Upvote.objects.filter(comment=obj.id).count()
 
 class UpvoteSerializer(serializers.ModelSerializer):
     class Meta:
